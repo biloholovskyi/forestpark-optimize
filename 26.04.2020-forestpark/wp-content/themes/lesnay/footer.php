@@ -63,7 +63,7 @@
           <fieldset class="formRow">
             <div class="formRow--item">
               <label for="firstname" class="formRow--input-wrapper js-inputWrapper">
-                <input type="name" name="name" class="formRow--input js-input" id="lastname" placeholder=""><span
+                <input type="name" name="name" class="formRow--input js-input" id="lastname" placeholder="" required><span
                   class="placeholder"></span><span class="placeholder">Ваше имя</span>
               </label>
             </div>

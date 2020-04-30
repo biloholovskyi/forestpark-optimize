@@ -41,6 +41,8 @@ get_header();
           </div>
         </div>
 
+        
+
       </div>
 
       <div class="map" id="map">
@@ -56,6 +58,70 @@ get_header();
 
     </div>
   </section>
+
+  <div class="video_gallery">
+        <div class="content">
+                <div class="gallery_grid">
+                <?php
+                $args = array(
+                  'numberposts' => -1,
+                  'orderby'     => 'date',
+                  'order'       => 'DESC',
+                  'post_type'   => 'video',
+                  'suppress_filters' => true,
+                );
+
+                $posts = get_posts( $args );
+                foreach($posts as $post){ setup_postdata($post);
+
+                  $video_img = get_field('video_img');
+
+                  ?>
+                    <div class="about__btn">  
+                      <a href="#" class="about__btn-text"><h2><?php the_field('video-title'); ?></h2></a> 
+                      <div class="img_block">
+                        <img src="<?php echo get_template_directory_uri(); ?>/media/icon/play.png" style="width: 50px;">
+                        <img src="<?php echo $video_img ?>" alt="">
+                      </div>
+          <!-- MODAL VIDEO -->
+                      <div class="modal-wrapper-video">
+                        <div class="modal-video">
+                          <div class="modal-video__close"></div>
+                          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php the_field( 'video-btn' ); ?>"
+                                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                  allowfullscreen id="video-modal"></iframe>
+                        </div>
+                      </div>
+        <!-- end MODAL VIDEO -->
+                </div>
+                <?php
+                  }
+                  wp_reset_postdata(); // сброс
+                  ?>
+            </div>
+      </div>
+  </div>    
+<!-- MODAL VIDEO -->
+  
+
+  <div class="modal-wrapper-video">
+    <div class="modal-video">
+      <div class="modal-video__close"></div>
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php the_field( 'video-btn1' ); ?>"
+              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen id="video-modal"></iframe>
+    </div>
+  </div>
+
+  <div class="modal-wrapper-video">
+    <div class="modal-video">
+      <div class="modal-video__close"></div>
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php the_field( 'video-btn2' ); ?>"
+              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen id="video-modal"></iframe>
+    </div>
+  </div>
+  <!-- end MODAL VIDEO -->
 
   <script>
     ymaps.ready(init);
@@ -204,6 +270,19 @@ get_header();
     }
 
     $(document).ready(function () {
+
+      //VIDEO MODAL
+      $('.about__btn').on('click', function () {
+        $('.modal-wrapper-video').fadeIn('slow').css('display', 'flex');
+      });
+
+      $('.modal-video__close').on('click', function () {
+        $('.modal-wrapper-video').fadeOut('slow');
+      });
+
+      // end VIDEO MODAL
+
+
       $("#fix-form-asc").submit(function (e) {
         e.preventDefault();
         var form_data = $(this).serialize();
@@ -220,6 +299,19 @@ get_header();
         });
         return false;
       });
+    });
+
+
+    $(document).on('click', function (e) {
+      let modal = $('.modal-video');
+      let btn = $('.about__btn');
+     
+
+      if (!btn.is(e.target) && btn.has(e.target).length === 0) {
+        if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+          $('.modal-wrapper-video').fadeOut('slow');
+        }
+      }
     });
 
   </script>

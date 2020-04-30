@@ -476,6 +476,32 @@ get_header();
 
   </section>
 
+<section class="video_about">
+      <div class="content video_container"> 
+        <div class="video_text">
+          <h2>Посмотрите видео о Forest Park</h2>
+        </div>
+        <div class="video_content"> 
+          <div class="play_icon">
+          <img id="video_btn" src="<?php echo get_template_directory_uri(); ?>/media/icon/play.png">
+          </div>
+          <div class="video_wrap">
+          <video src="<?php the_field( 'video_about' ); ?>" muted="muted"
+             autoplay="autoplay" loop="loop" playsinline></video>
+          </div> 
+        </div>
+      </div>
+</section>
+
+<div class="modal-wrapper-video">
+    <div class="modal-video">
+      <div class="modal-video__close"></div>
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php the_field( 'video-btn4' ); ?>"
+              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen id="video-modal"></iframe>
+    </div>
+  </div>
+
   <section class="block8 content">
     <h2>Последние публикации</h2>
     <section class="instagram-post">
@@ -535,6 +561,16 @@ get_header();
 
         <script>
           $(document).ready(function () {
+
+            $('#video_btn').on('click', function () {
+             $('.modal-wrapper-video').fadeIn('slow').css('display', 'flex');
+              });
+
+              $('.modal-video__close').on('click', function () {
+                $('.modal-wrapper-video').fadeOut('slow');
+               });
+
+
             $("#askform_3").submit(function () {
               var form_data = $(this).serialize();
               $.ajax({
@@ -551,6 +587,18 @@ get_header();
               return false;
             });
           });
+
+          $(document).on('click', function (e) {
+              let modal = $('.modal-video');
+              let about_btn = $('#video_btn'); 
+            
+
+              if (!about_btn.is(e.target) && about_btn.has(e.target).length === 0) {
+                if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+                  $('.modal-wrapper-video').fadeOut('slow');
+                }
+              }
+            });
 
 
           $('.knop_grid a').click(function () {

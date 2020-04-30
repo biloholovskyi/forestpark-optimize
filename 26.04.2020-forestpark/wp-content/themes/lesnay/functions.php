@@ -119,34 +119,35 @@ add_action( 'widgets_init', 'lesnay_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
-function lesnay_scripts() {
+function lesnay_scripts() {  
 
-	wp_enqueue_style( 'lesnay-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'lesnay-style', get_stylesheet_uri() ); 
 	
 	wp_enqueue_style( 'lesnay-slider', get_template_directory_uri() . '/css/owl.carousel.min.css', true );
-	wp_enqueue_style( 'lesnay-media', get_template_directory_uri() . '/css/media.css', true );
+	wp_enqueue_style( 'lesnay-media', get_template_directory_uri() . '/css/media.min.css', true ); 
     wp_enqueue_style( 'lesnay-slider-2', get_template_directory_uri() . '/css/owl.carousel2.min.css', true );
 	wp_enqueue_style( 'lesnay-slider-3', get_template_directory_uri() . '/css/owl.carousel3.min.css', true );
 	wp_enqueue_style( 'lesnay-themes-owl-all', get_template_directory_uri() . '/css/owl.theme.default.min.css', true );
     wp_enqueue_style( 'lesnay-themes-animate', get_template_directory_uri() . '/css/animate.min.css', true );
     wp_enqueue_style( 'lesnay-fancy', get_template_directory_uri() . '/css/jquery.fancybox.min.css', array() );
-  wp_enqueue_style( 'fix', get_template_directory_uri() . '/css/main.css', true );
+	wp_enqueue_style( 'fix', get_template_directory_uri() . '/css/main.css', true );
 	
 	wp_deregister_script('jquery');
-	wp_register_script('jquery', get_template_directory_uri() . '/js/jquery.min.js', false, null);
+	wp_register_script('jquery', get_template_directory_uri() . '/js/jquery.min.js', false, null); 
     wp_enqueue_script('jquery');
 
-    wp_enqueue_script( 'lesnay-wow', get_template_directory_uri() . '/js/wow.js', array('jquery'), false );
-    wp_enqueue_script( 'lesnay-count', get_template_directory_uri() . '/js/count.js',array('jquery'), false );
+    wp_enqueue_script( 'lesnay-wow', get_template_directory_uri() . '/js/wow.min.js', array('jquery'), false );
+    wp_enqueue_script( 'lesnay-count', get_template_directory_uri() . '/js/count.min.js',array('jquery'), false );
     wp_enqueue_script( 'lesnay-fancy', get_template_directory_uri() . '/js/jquery.fancybox.min.js', array('jquery'), true);
 	wp_enqueue_script( 'lesnay-corusel', get_template_directory_uri() . '/js/owl.carousel.js', array('jquery'), false );
     wp_enqueue_script( 'lesnay-paralaxx', get_template_directory_uri() . '/js/jquery.paroller.js',array('jquery'), null, true );
 	wp_enqueue_script( 'fix', get_template_directory_uri() . '/js/index.js',array('jquery'), null, true );
-	wp_enqueue_script( 'lesnay-common', get_template_directory_uri() . '/js/common.js',array('jquery'), null, true );
+	wp_enqueue_script( 'lesnay-common', get_template_directory_uri() . '/js/common.min.js',array('jquery'), null, true );
+	
 
 	
 
-
+ 
 
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -225,4 +226,61 @@ if( function_exists('acf_add_options_page') ) {
 	
 	
 	
+}
+
+
+function menu() {
+	// register_nav_menu('header', 'Главное меню в шапке'); 
+	// register_nav_menu('footer', 'Меню в подвале');
+  //  register_nav_menu('footer', 'Меню в подвале');
+	// register_nav_menu('footer_doc', 'Документы в подвале');
+	add_theme_support( 'post-thumbnails', array('post', 'video') );
+	add_filter('excerpt_more', function($more) {
+	  return '';
+	});
+  }
+
+
+
+  add_action( 'init', 'register_post_types' );
+function register_post_types(){
+  register_post_type('video', array(
+    'label'  => null,
+    'labels' => array(
+      'name'               => 'Видео галерея', // основное название для типа записи
+      'singular_name'      => 'видео', // название для одной записи этого типа
+      'add_new'            => 'Добавить видео', // для добавления новой записи
+      'add_new_item'       => 'Добавление видео', // заголовка у вновь создаваемой записи в админ-панели.
+      'edit_item'          => 'Редактирование видео', // для редактирования типа записи
+      'new_item'           => 'Новое видео', // текст новой записи
+      'view_item'          => 'Смотреть видео', // для просмотра записи этого типа.
+      'search_items'       => 'Искать видео', // для поиска по этим типам записи
+      'not_found'          => 'Не найденое видео', // если в результате поиска ничего не было найдено
+      'not_found_in_trash' => 'Не найденое видео в корзине', // если не было найдено в корзине
+      'parent_item_colon'  => '', // для родителей (у древовидных типов)
+      'menu_name'          => 'Видео галерея', // название меню
+    ),
+    'description'         => '',
+    'public'              => true,
+    'publicly_queryable'  => true, // зависит от public
+    'exclude_from_search' => true, // зависит от public
+    'show_ui'             => true, // зависит от public
+    'show_in_menu'        => true, // показывать ли в меню адмнки
+    'show_in_admin_bar'   => true, // по умолчанию значение show_in_menu
+    'show_in_nav_menus'   => true, // зависит от public
+    'show_in_rest'        => null, // добавить в REST API. C WP 4.7
+    'rest_base'           => null, // $post_type. C WP 4.7
+    'menu_position'       => 2,
+    'menu_icon'           => 'dashicons-grid-view',
+    //'capability_type'   => 'post',
+    //'capabilities'      => 'post', // массив дополнительных прав для этого типа записи
+    //'map_meta_cap'      => null, // Ставим true чтобы включить дефолтный обработчик специальных прав
+    'hierarchical'        => false,
+    'supports'            => array('title', 'thumbnail'), // 'title','editor','author','thumbnail','excerpt','trackbacks','custom-fields','comments','revisions','page-attributes','post-formats'
+    'taxonomies'          => array(),
+    'has_archive'         => false,
+    'rewrite'             => true,
+    'query_var'           => true,
+  ) );
+
 }
